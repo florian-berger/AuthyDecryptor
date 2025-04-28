@@ -9,3 +9,9 @@ This tool decrypts the TOTP secrets that are stored by the '''Authy''' app. Why?
 As software developer, it is necessary for me to access tokens fast and easy in my everyday work. Sadly, Twilio does not provide any possibility to get access to my own tokens secrets in plain text. And I don't want to remove and create a new token for over 60 different accounts I managed within Authy.
 
 Even the export of the encrypted ones requires some complex setup (as described [here by AlexTech01](https://github.com/AlexTech01/Authy-iOS-MiTM/)). If you have access to your encrypted secrets, you can use this project to decrypt them and re-create it within some alternative solutions.
+
+## TODO
+
+- [x] CLI tool
+- [ ] GUI with ability to render secrets as QR codes
+- [ ] Localization
