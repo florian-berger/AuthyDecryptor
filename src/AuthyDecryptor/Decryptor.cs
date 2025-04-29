@@ -1,10 +1,23 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
+using AuthyDecryptor.Model;
 
 namespace AuthyDecryptor;
 
 public static class Decryptor
 {
+    public static EncryptedFileData? GetDataFromFile(string inputFile)
+    {
+        var jsonData = File.ReadAllText(inputFile);
+        if (string.IsNullOrWhiteSpace(jsonData))
+        {
+            return null;
+        }
+
+        return JsonSerializer.Deserialize<EncryptedFileData>(jsonData);
+    }
+    
     public static string DecryptToken(int kdfIterations, string encryptedSeedBase64, string salt, string iv,
         string passphrase)
     {

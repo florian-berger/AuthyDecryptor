@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <FileVersion>2025.1.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
+    <PackageReference Include="Prism.Core" Version="9.0.537" />
+    <PackageReference Include="Syncfusion.Shared.WPF" Version="29.1.40" />
+    <PackageReference Include="Syncfusion.Tools.WPF" Version="29.1.40" />
+    <PackageReference Include="Syncfusion.SfChromelessWindow.WPF" Version="29.1.40" />
+    <PackageReference Include="Syncfusion.SfTextInputLayout.WPF" Version="29.1.40" />
+    <PackageReference Include="Syncfusion.SfBarcode.WPF" Version="29.1.40" />
+    <PackageReference Include="Syncfusion.Themes.Windows11Dark.WPF" Version="29.1.40" />
+    <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="29.1.40" />
+    <PackageReference Include="Syncfusion.SfProgressBar.WPF" Version="29.1.40" />
+    <PackageReference Include="Syncfusion.SfNavigationDrawer.WPF" Version="29.1.40" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AuthyDecryptor\AuthyDecryptor.csproj" />
+  </ItemGroup>
+</Project>

@@ -48,16 +48,10 @@ class Program
 
                 if (options.Verbose)
                 {
-                    ConsoleHelper.WriteVerbose("Reading input file");
+                    ConsoleHelper.WriteVerbose("Reading and parsing input file");
                 }
-                var jsonData = File.ReadAllText(inputFile);
 
-                if (options.Verbose)
-                {
-                    ConsoleHelper.WriteVerbose("Parsing input json");
-                }
-                
-                var data = JsonSerializer.Deserialize<EncryptedFileData>(jsonData);
+                var data = Decryptor.GetDataFromFile(inputFile);
                 if (data == null)
                 {
                     if (options.Verbose)
