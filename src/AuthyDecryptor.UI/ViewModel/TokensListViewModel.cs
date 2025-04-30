@@ -21,16 +21,8 @@ internal class TokensListViewModel(DecryptedTokenBinding[] tokens) : BindableBas
     public DecryptedTokenBinding? SelectedToken
     {
         get => _selectedToken;
-        set
-        {
-            if (SetProperty(ref _selectedToken, value))
-            {
-                //RaisePropertyChanged(nameof(QrCodeDisplayData));
-            }
-        }
+        set => SetProperty(ref _selectedToken, value);
     } private DecryptedTokenBinding? _selectedToken;
-
-    //public string QrCodeDisplayData => SelectedToken?.QrCodeData ?? string.Empty;
 
     public bool AllowEditing
     {
