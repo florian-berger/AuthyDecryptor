@@ -24,7 +24,4 @@ public class DecryptedToken
 
     [JsonPropertyName("unique_id")]
     public string? UniqueId { get; set; }
-
-    [JsonIgnore]
-    public string QrCodeData { get; set; } = string.Empty;
 }

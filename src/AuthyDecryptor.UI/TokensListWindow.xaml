@@ -1,4 +1,4 @@
-﻿<sf:ChromelessWindow x:Class="AuthyDecryptor.UI.TokensListWindow"
+﻿<sf:RibbonWindow x:Class="AuthyDecryptor.UI.TokensListWindow"
                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,27 +6,51 @@
                      xmlns:sf="http://schemas.syncfusion.com/wpf"
                      xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
                      xmlns:viewModel="clr-namespace:AuthyDecryptor.UI.ViewModel"
-                     xmlns:model="clr-namespace:AuthyDecryptor.Model;assembly=AuthyDecryptor.Model"
                      xmlns:converters="clr-namespace:AuthyDecryptor.UI.Wpf.Converters"
                      xmlns:barcode="clr-namespace:Syncfusion.UI.Xaml.Controls.Barcode;assembly=Syncfusion.SfBarcode.WPF"
-                     mc:Ignorable="d" Title="Decrypted tokens" WindowStyle="ToolWindow"
-                     WindowStartupLocation="CenterOwner" CornerRadius="0"
+                     xmlns:bindingObjects="clr-namespace:AuthyDecryptor.UI.Wpf.BindingObjects"
+                     mc:Ignorable="d" WindowStyle="ToolWindow" ShowHelpButton="False"
+                     Title="Decrypted tokens"
                      sf:SfSkinManager.Theme="{sf:SkinManager ThemeName=Windows11Dark}"
                      Icon="{fa:IconSource Lock, Foreground=White}"
-                     Height="500" Width="800"
+                     Height="500" Width="800" WindowStartupLocation="CenterOwner"
                      d:DataContext="{d:DesignInstance viewModel:TokensListViewModel, IsDesignTimeCreatable=False}">
-    <sf:ChromelessWindow.Resources>
+    <sf:RibbonWindow.Resources>
         <converters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />
         <converters:NotNullToVisibilityConverter x:Key="NullToVisibilityConverter" Inverted="True" />
-    </sf:ChromelessWindow.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+    </sf:RibbonWindow.Resources>
 
     <DockPanel>
+        <sf:Ribbon DockPanel.Dock="Top" VerticalAlignment="Top" MinimizeButtonVisibility="Collapsed"
+                   EnableSimplifiedLayoutMode="False" LayoutMode="Normal" BackStage="{x:Null}" RibbonState="Normal"
+                   RibbonContextMenuOpening="WindowRibbon_OnRibbonContextMenuOpening">
+            <sf:Ribbon.BackStageButton>
+                <sf:BackStageButton Visibility="Collapsed" />
+            </sf:Ribbon.BackStageButton>
+
+            <sf:RibbonTab Caption="HOME" IsChecked="True">
+                <sf:RibbonBar Header="Actions" IsLauncherButtonVisible="False">
+                    <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Large"
+                                     Label="Save to file"
+                                     LargeIcon="{fa:IconSource Save, Foreground=White}"
+                                     Command="{Binding Path=SaveToFileCommand, Mode=OneTime}" />
+
+                    <sf:RibbonCheckBox Content="Save with indents" IsChecked="{Binding Path=SaveIndented, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </sf:RibbonBar>
+
+                <sf:RibbonBar Header="Settings" IsLauncherButtonVisible="False">
+                    <sf:RibbonCheckBox Content="Allow edit" IsChecked="{Binding Path=AllowEditing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </sf:RibbonBar>
+            </sf:RibbonTab>
+        </sf:Ribbon>
+
         <sf:SfNavigationDrawer DisplayMode="Expanded" IsToggleButtonVisible="False" ExpandedModeWidth="200"
                                ItemsSource="{Binding Path=Tokens, Mode=OneWay}"
                                SelectedItem="{Binding Path=SelectedToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <sf:SfNavigationDrawer.ItemTemplate>
-                <DataTemplate DataType="{x:Type model:DecryptedToken}">
-                    <Grid HorizontalAlignment="Stretch" MaxWidth="185">
+                <DataTemplate DataType="{x:Type bindingObjects:DecryptedTokenBinding}">
+                    <Grid HorizontalAlignment="Stretch" MaxWidth="185" Margin="-20,0,-25,5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -47,7 +71,7 @@
                 <Grid Margin="12,8">
                     <!-- Start: Nothing selected -->
                     <Grid Visibility="{Binding Path=SelectedToken, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="#3b3a39" CornerRadius="10" Padding="30" Width="275">
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="#3b3a39" CornerRadius="10" Padding="30" Width="370">
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -58,12 +82,12 @@
                                 <TextBlock Grid.Row="0" Text="No token selected" FontWeight="Bold" FontSize="16" HorizontalAlignment="Center" />
 
                                 <Grid Grid.Row="1" Margin="20">
-                                    <Ellipse Height="124" Width="124" Fill="#333231" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                    <Image Source="{fa:IconSource Archive, Foreground=White, IconFont=Solid}" Height="64" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    <Ellipse Height="96" Width="96" Fill="#333231" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    <Image Source="{fa:IconSource Archive, Foreground=White, IconFont=Solid}" Height="48" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Grid>
 
                                 <TextBlock Grid.Row="2" Text="Select a token from the list on the left side to get detailed information about it. There you can also generate a QR code to set up a new authenticator app easily." TextWrapping="Wrap"
-                                           MaxWidth="180" HorizontalAlignment="Center" TextAlignment="Center" />
+                                           MaxWidth="320" HorizontalAlignment="Center" TextAlignment="Center" />
                             </Grid>
                         </Border>
                     </Grid>
@@ -84,23 +108,27 @@
                         </Grid.ColumnDefinitions>
 
                         <sf:SfTextInputLayout Grid.Row="0" Grid.Column="0" ContainerType="Outlined" Hint="Name" Focusable="False" HorizontalAlignment="Stretch">
-                            <TextBox Text="{Binding Path=SelectedToken.Name, Mode=OneWay}" />
+                            <TextBox Text="{Binding Path=SelectedToken.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     IsReadOnly="{Binding Path=AllowEditing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </sf:SfTextInputLayout>
 
                         <sf:SfTextInputLayout Grid.Row="1" Grid.Column="0" ContainerType="Outlined" Hint="Issuer" Focusable="False" HorizontalAlignment="Stretch">
-                            <TextBox Text="{Binding Path=SelectedToken.Issuer, Mode=OneWay}" />
+                            <TextBox Text="{Binding Path=SelectedToken.Issuer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     IsReadOnly="{Binding Path=AllowEditing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </sf:SfTextInputLayout>
 
                         <sf:SfTextInputLayout Grid.Row="2" Grid.Column="0" ContainerType="Outlined" Hint="Number of digits" Focusable="False" HorizontalAlignment="Stretch">
-                            <TextBox Text="{Binding Path=SelectedToken.Digits, Mode=OneWay}" />
+                            <TextBox Text="{Binding Path=SelectedToken.Digits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     IsReadOnly="{Binding Path=AllowEditing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </sf:SfTextInputLayout>
 
                         <sf:SfTextInputLayout Grid.Row="3" Grid.Column="0" ContainerType="Outlined" Hint="Secret" Focusable="False" HorizontalAlignment="Stretch">
-                            <TextBox Text="{Binding Path=SelectedToken.DecryptedSeed, Mode=OneWay}" />
+                            <TextBox Text="{Binding Path=SelectedToken.DecryptedSeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     IsReadOnly="{Binding Path=AllowEditing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </sf:SfTextInputLayout>
 
                         <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Background="White" Margin="20,8,8,0" VerticalAlignment="Top">
-                            <barcode:SfBarcode Symbology="QRBarcode" Text="{Binding Path=QrCodeDisplayData, Mode=OneWay}"
+                            <barcode:SfBarcode Symbology="QRBarcode" Text="{Binding Path=SelectedToken.QrCodeData, Mode=OneWay}"
                                                DisplayText="False" Margin="6" Width="128" Height="128" >
                                 <barcode:SfBarcode.SymbologySettings>
                                     <barcode:QRBarcodeSetting XDimension="8" />
@@ -113,4 +141,4 @@
             </sf:SfNavigationDrawer.ContentView>
         </sf:SfNavigationDrawer>
     </DockPanel>
-</sf:ChromelessWindow>
+</sf:RibbonWindow>

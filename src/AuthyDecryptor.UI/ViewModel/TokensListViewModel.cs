@@ -1,53 +1,101 @@
-﻿using AuthyDecryptor.Model;
+﻿using System.IO;
+using AuthyDecryptor.Model;
+using AuthyDecryptor.UI.Wpf.BindingObjects;
+using System.Text.Json;
+using Microsoft.Win32;
 
 namespace AuthyDecryptor.UI.ViewModel;
 
-internal class TokensListViewModel : BindableBase
+internal class TokensListViewModel(DecryptedTokenBinding[] tokens) : BindableBase
 {
+    #region Variables
+
+    private string? _lastFilePath;
+
+    #endregion Variables
+    
     #region Properties
 
-    public DecryptedToken[] Tokens { get; private set; }
+    public DecryptedTokenBinding[] Tokens { get; private set; } = tokens;
 
-    public DecryptedToken? SelectedToken
+    public DecryptedTokenBinding? SelectedToken
     {
         get => _selectedToken;
         set
         {
-            if (SetProperty(ref _selectedToken, value) && _selectedToken != null)
+            if (SetProperty(ref _selectedToken, value))
             {
-                GenerateQrCodeDataIfNecessary(_selectedToken);
+                //RaisePropertyChanged(nameof(QrCodeDisplayData));
             }
         }
-    } private DecryptedToken? _selectedToken;
+    } private DecryptedTokenBinding? _selectedToken;
 
-    public string QrCodeDisplayData
+    //public string QrCodeDisplayData => SelectedToken?.QrCodeData ?? string.Empty;
+
+    public bool AllowEditing
     {
-        get => _qrCodeDisplayData;
-        set => SetProperty(ref _qrCodeDisplayData, value);
-    } private string _qrCodeDisplayData = string.Empty;
+        get => _allowEditing;
+        set => SetProperty(ref _allowEditing, value);
+    } private bool _allowEditing;
+
+    public bool SaveIndented
+    {
+        get => _saveIndented;
+        set => SetProperty(ref _saveIndented, value);
+    } private bool _saveIndented;
 
     #endregion Properties
 
-    #region Constructor
+    #region Commands
 
-    public TokensListViewModel(DecryptedToken[] tokens)
-    {
-        Tokens = tokens;
-    }
+    public DelegateCommand SaveToFileCommand => _saveToFileCommand ??= new DelegateCommand(SaveToFile);
+    private DelegateCommand? _saveToFileCommand;
 
-    #endregion Constructor
+    #endregion Commands
 
     #region Private methods
 
-    private void GenerateQrCodeDataIfNecessary(DecryptedToken token)
+    private void SaveToFile()
     {
-        if (string.IsNullOrEmpty(token.QrCodeData))
+        var defaultFileName = "decrypted_tokens.json";
+        var defaultFilePath = string.Empty;
+
+        if (!string.IsNullOrWhiteSpace(_lastFilePath))
         {
-            token.QrCodeData = $"otpauth://totp/{Uri.EscapeDataString(token.Name ?? "")}" +
-                            $"?secret={token.DecryptedSeed}&issuer={Uri.EscapeDataString(token.Issuer ?? "")}&digits={token.Digits}";
+            try
+            {
+                defaultFileName = Path.GetFileName(_lastFilePath);
+                defaultFilePath = Path.GetDirectoryName(_lastFilePath);
+            }
+            catch
+            {
+                // Ignore here
+            }
         }
         
-        QrCodeDisplayData = token.QrCodeData;
+        var saveFileDialog = new SaveFileDialog
+        {
+            Filter = "JSON files (*.json)|*.json|All Files (*.*)|*.*",
+            Title = "Select output file",
+            OverwritePrompt = true,
+            AddExtension = true,
+            FileName = defaultFileName,
+            InitialDirectory = defaultFilePath
+        };
+
+        if (saveFileDialog.ShowDialog() == true)
+        {
+            _lastFilePath = saveFileDialog.FileName;
+            
+            var tokensToSave = Tokens.Select(b => b.ToToken()).ToList();
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = SaveIndented
+            };
+
+            var json = System.Text.Json.JsonSerializer.Serialize(tokensToSave, options);
+            File.WriteAllText(_lastFilePath, json);
+        }
     }
 
     #endregion Private methods
@@ -56,7 +104,7 @@ internal class TokensListViewModel : BindableBase
 
     internal static void ShowTokensList(List<DecryptedToken> decryptedTokens)
     {
-        new TokensListWindow(decryptedTokens.OrderBy(r => r.Name).ToArray()).Show();
+        new TokensListWindow(decryptedTokens.Select(t => new DecryptedTokenBinding(t)).OrderBy(r => r.Name).ToArray()).Show();
     }
 
     #endregion Static helper methods

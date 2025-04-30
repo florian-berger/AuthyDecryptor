@@ -1,6 +1,7 @@
 ﻿using System.Windows;
-using AuthyDecryptor.Model;
+using System.Windows.Controls;
 using AuthyDecryptor.UI.ViewModel;
+using AuthyDecryptor.UI.Wpf.BindingObjects;
 
 namespace AuthyDecryptor.UI
 {
@@ -9,12 +10,17 @@ namespace AuthyDecryptor.UI
     /// </summary>
     public partial class TokensListWindow
     {
-        public TokensListWindow(DecryptedToken[] tokens)
+        public TokensListWindow(DecryptedTokenBinding[] tokens)
         {
             Owner = Application.Current.MainWindow;
             DataContext = new TokensListViewModel(tokens);
 
             InitializeComponent();
+        }
+
+        private void WindowRibbon_OnRibbonContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }
