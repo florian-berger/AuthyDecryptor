@@ -26,4 +26,10 @@
   <ItemGroup>
     <ProjectReference Include="..\AuthyDecryptor\AuthyDecryptor.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Third-Party Licenses.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

@@ -36,26 +36,32 @@
             </sf:Ribbon.BackStageButton>
 
             <sf:RibbonTab Caption="HOME" IsChecked="True">
-                <sf:RibbonBar Header="Actions" IsLauncherButtonVisible="False">
+                <sf:RibbonBar Header="Analyze" IsLauncherButtonVisible="False">
                     <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Large"
                                      Label="Start"
                                      LargeIcon="{fa:IconSource PlayCircle, Foreground=White, IconFont=Solid}"
                                      Command="{Binding Path=StartDecryptionCommand, Mode=OneTime}" />
-                </sf:RibbonBar>
 
-                <sf:RibbonBar Header="Extras" IsLauncherButtonVisible="False">
-                    <sf:RibbonCheckBox Content="Auto. save to file" IsChecked="{Binding Path=AutoSaveToFile, Mode=TwoWay}" />
+                    <sf:RibbonCheckBox Content="Auto. save to file"  Margin="5,1,0,0"
+                                       IsChecked="{Binding Path=AutoSaveToFile, Mode=TwoWay}" />
 
                     <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Small"
                                      Label="Load decrypted file"
                                      SmallIcon="{fa:IconSource FileImport, Foreground=White}"
                                      Command="{Binding Path=LoadDecryptedFileCommand, Mode=OneTime}" />
+                </sf:RibbonBar>
 
+                <sf:RibbonBar Header="Extras" IsLauncherButtonVisible="False">
                     <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Small"
                                      Label="Open repository"
                                      SmallIcon="{fa:IconSource Github, Foreground=White, IconFont=Brands}"
                                      Command="{x:Static wpf:StaticCommands.OpenUriCommand}"
                                      CommandParameter="{x:Static ui:Constants.RepositoryUri}" />
+
+                    <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Small"
+                                     Label="Third-Party licenses"
+                                     SmallIcon="{fa:IconSource Stamp, Foreground=White}"
+                                     Command="{x:Static wpf:StaticCommands.OpenThirdPartyLicensesCommand}"  />
                 </sf:RibbonBar>
             </sf:RibbonTab>
         </sf:Ribbon>

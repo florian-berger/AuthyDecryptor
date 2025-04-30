@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows;
 
 namespace AuthyDecryptor.UI.Wpf;
 internal class StaticCommands
@@ -11,6 +13,9 @@ internal class StaticCommands
     /// </summary>
     public static DelegateCommand<string> OpenUriCommand => _openUriCommand ??= new DelegateCommand<string>(OpenUri);
     private static DelegateCommand<string>? _openUriCommand;
+
+    public static DelegateCommand OpenThirdPartyLicensesCommand => _openThirdPartyLicensesCommand ??= new DelegateCommand(OpenThirdPartyLicenses);
+    private static DelegateCommand? _openThirdPartyLicensesCommand;
 
     #endregion Commands
 
@@ -34,6 +39,19 @@ internal class StaticCommands
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             Process.Start("open", address);
+        }
+    }
+
+    private static void OpenThirdPartyLicenses()
+    {
+        var thirdPartyLicenseFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Third-Party Licenses.html");
+        if (File.Exists(thirdPartyLicenseFile))
+        {
+            Process.Start(new ProcessStartInfo(thirdPartyLicenseFile) { UseShellExecute = true });
+        }
+        else
+        {
+            MessageBox.Show("Error opening the third-party licenses file.");
         }
     }
 

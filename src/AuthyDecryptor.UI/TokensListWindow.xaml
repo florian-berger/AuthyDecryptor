@@ -13,7 +13,7 @@
                  Title="Decrypted tokens"
                  sf:SfSkinManager.Theme="{sf:SkinManager ThemeName=Windows11Dark}"
                  Icon="{fa:IconSource Lock, Foreground=White}"
-                 Height="500" Width="800" WindowStartupLocation="CenterOwner"
+                 MinHeight="500" MinWidth="800" Height="500" Width="800" WindowStartupLocation="CenterOwner"
                  d:DataContext="{d:DesignInstance viewModel:TokensListViewModel, IsDesignTimeCreatable=False}">
     <sf:RibbonWindow.Resources>
         <converters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />
@@ -56,7 +56,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Margin="0,5,0,0"
+                        <TextBlock Grid.Row="0" Margin="0,5,0,0" MaxWidth="170"
                                    FontWeight="Bold" FontSize="13" TextTrimming="CharacterEllipsis"
                                    Text="{Binding Path=Name, Mode=OneWay}" />
 
