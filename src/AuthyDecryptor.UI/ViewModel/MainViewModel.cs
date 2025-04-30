@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows;
 using AuthyDecryptor.Model;
 using AuthyDecryptor.UI.Wpf;
@@ -108,6 +109,9 @@ public class MainViewModel : BindableBase
     public DelegateCommand SelectOutputFileCommand => _selectOutputFileCommand ??= new DelegateCommand(SelectOutputFile);
     private DelegateCommand? _selectOutputFileCommand;
 
+    public DelegateCommand LoadDecryptedFileCommand => _loadDecryptedFileCommand ??= new DelegateCommand(LoadDecryptedFile);
+    private DelegateCommand _loadDecryptedFileCommand;
+
     #endregion Commands
 
     #region Private methods
@@ -203,6 +207,33 @@ public class MainViewModel : BindableBase
         if (saveFileDialog.ShowDialog() == true)
         {
             DecryptedFileOutput = saveFileDialog.FileName;
+        }
+    }
+
+    private void LoadDecryptedFile()
+    {
+        try
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "Decrypted JSON files (*.json)|*.json|All Files (*.*)|*.*",
+                Title = "Select decrypted file",
+                ForcePreviewPane = true,
+                Multiselect = false
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var fileContent = File.ReadAllText(openFileDialog.FileName);
+                var decryptedTokens = JsonSerializer.Deserialize<DecryptedToken[]>(fileContent) ?? [];
+                
+                TokensListViewModel.ShowTokensList(decryptedTokens.ToList());
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Failed to load decrypted file: {ex.Message}", "Error", MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 

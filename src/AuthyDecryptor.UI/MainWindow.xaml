@@ -47,6 +47,11 @@
                     <sf:RibbonCheckBox Content="Auto. save to file" IsChecked="{Binding Path=AutoSaveToFile, Mode=TwoWay}" />
 
                     <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Small"
+                                     Label="Load decrypted file"
+                                     SmallIcon="{fa:IconSource FileImport, Foreground=White}"
+                                     Command="{Binding Path=LoadDecryptedFileCommand, Mode=OneTime}" />
+
+                    <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Small"
                                      Label="Open repository"
                                      SmallIcon="{fa:IconSource Github, Foreground=White, IconFont=Brands}"
                                      Command="{x:Static wpf:StaticCommands.OpenUriCommand}"
