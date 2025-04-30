@@ -5,7 +5,7 @@
 
 This tool decrypts the TOTP secrets stored by the '''Authy''' app. Why? Because in 2024, Twilio (the company behind Authy) decided to discontinue the support of their Desktop application from one day to another.
 
-As a software developer, I must access tokens fast and easily in my everyday work. Sadly, Twilio does not provide any possibility to get access to my own tokens' secrets in plain text. And I don't want to remove and create a new token for more than 70 different accounts I protected within Authy.
+As a software developer, I must easily access tokens in my everyday work. Sadly, Twilio does not provide any way to access my own tokens' secrets in plain text. I don't want to remove and create a new token for more than 70 different accounts I protected within Authy.
 
 Even the export of the encrypted ones requires some complex setup (as described [here by AlexTech01](https://github.com/AlexTech01/Authy-iOS-MiTM/)). If you have access to your encrypted secrets, you can use this project to decrypt them and re-create it with some alternative solutions.
 
