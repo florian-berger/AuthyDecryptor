@@ -3,7 +3,7 @@
 [![Issues](https://img.shields.io/github/issues/florian-berger/AuthyDecryptor?logo=github&style=for-the-badge)](https://github.com/florian-berger/AuthyDecryptor)
 [![Discord](https://img.shields.io/discord/302523634075828226?label=Discord&logo=discord&style=for-the-badge)](https://ultgmng.de/discord)
 
-This tool decrypts the TOTP secrets stored by the '''Authy''' app. Why? Because in 2024, Twilio (the company behind Authy) decided to discontinue the support of their Desktop application from one day to another.
+This tool decrypts the TOTP secrets stored by the [**Authy** app](https://www.authy.com/). Why? Because in 2024, Twilio (the company behind Authy) decided to discontinue the support of their Desktop application from one day to another.
 
 As a software developer, I must easily access tokens in my everyday work. Sadly, Twilio does not provide any way to access my own tokens' secrets in plain text. I don't want to remove and create a new token for more than 70 different accounts I protected within Authy.
 
