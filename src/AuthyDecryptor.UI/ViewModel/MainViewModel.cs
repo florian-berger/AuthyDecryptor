@@ -110,7 +110,7 @@ public class MainViewModel : BindableBase
     private DelegateCommand? _selectOutputFileCommand;
 
     public DelegateCommand LoadDecryptedFileCommand => _loadDecryptedFileCommand ??= new DelegateCommand(LoadDecryptedFile);
-    private DelegateCommand _loadDecryptedFileCommand;
+    private DelegateCommand? _loadDecryptedFileCommand;
 
     #endregion Commands
 

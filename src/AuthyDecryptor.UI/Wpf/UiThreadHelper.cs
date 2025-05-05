@@ -31,6 +31,11 @@ public class UiThreadHelper
         }
         else
         {
+            if (_taskFactory == null)
+            {
+                throw new InvalidOperationException("UiThreadHelper is not initialized. Call Initialize() first.");
+            }
+            
             _taskFactory.StartNew(action);
         }
     }
@@ -43,6 +48,11 @@ public class UiThreadHelper
         }
         else
         {
+            if (_taskFactory == null)
+            {
+                throw new InvalidOperationException("UiThreadHelper is not initialized. Call Initialize() first.");
+            }
+            
             await _taskFactory.StartNew(asyncAction).Unwrap();
         }
     }
