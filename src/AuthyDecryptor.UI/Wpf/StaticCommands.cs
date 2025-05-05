@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
+using AuthyDecryptor.UI.Resources;
 
 namespace AuthyDecryptor.UI.Wpf;
 internal class StaticCommands
@@ -51,7 +52,7 @@ internal class StaticCommands
         }
         else
         {
-            MessageBox.Show("Error opening the third-party licenses file.");
+            MessageBox.Show(AppResource.ErrorOpeningLicensesFile);
         }
     }
 

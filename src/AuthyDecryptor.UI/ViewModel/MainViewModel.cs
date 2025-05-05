@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Windows;
 using AuthyDecryptor.Model;
+using AuthyDecryptor.UI.Resources;
 using AuthyDecryptor.UI.Wpf;
 using Microsoft.Win32;
 
@@ -97,6 +97,8 @@ public class MainViewModel : BindableBase
         set => SetProperty(ref _progressPercent, value);
     } private int _progressPercent;
 
+    public string WindowTitle { get; init; } = BuildWindowTitle();
+
     #endregion Properties
 
     #region Commands
@@ -168,8 +170,8 @@ public class MainViewModel : BindableBase
     {
         var openFileDialog = new OpenFileDialog
         {
-            Filter = "Encrypted JSON files (*.json)|*.json|All Files (*.*)|*.*",
-            Title = "Select encrypted file",
+            Filter = $"{AppResource.JsonFile} (*.json)|*.json|{AppResource.AllFiles} (*.*)|*.*",
+            Title = AppResource.InputFileTitle,
             ForcePreviewPane = true,
             Multiselect = false
         };
@@ -197,8 +199,8 @@ public class MainViewModel : BindableBase
 
         var saveFileDialog = new SaveFileDialog
         {
-            Filter = "JSON files (*.json)|*.json|All Files (*.*)|*.*",
-            Title = "Select output file",
+            Filter = $"{AppResource.JsonFile} (*.json)|*.json|{AppResource.AllFiles} (*.*)|*.*",
+            Title = AppResource.OutputFileTitle,
             OverwritePrompt = true,
             AddExtension = true,
             FileName = defaultFileName
@@ -216,8 +218,8 @@ public class MainViewModel : BindableBase
         {
             var openFileDialog = new OpenFileDialog
             {
-                Filter = "Decrypted JSON files (*.json)|*.json|All Files (*.*)|*.*",
-                Title = "Select decrypted file",
+                Filter = $"{AppResource.JsonFile} (*.json)|*.json|{AppResource.AllFiles} (*.*)|*.*",
+                Title = AppResource.SelectDecryptedFile,
                 ForcePreviewPane = true,
                 Multiselect = false
             };
@@ -232,8 +234,8 @@ public class MainViewModel : BindableBase
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Failed to load decrypted file: {ex.Message}", "Error", MessageBoxButton.OK,
-                MessageBoxImage.Error);
+            MessageBox.Show(string.Format(AppResource.ErrorLoadDecryptedFile, ex.Message), AppResource.Error,
+                MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -321,6 +323,23 @@ public class MainViewModel : BindableBase
         }
 
         return decryptedTokens;
+    }
+
+    private static string BuildWindowTitle()
+    {
+        var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        if (version == null)
+        {
+            return "Authy Decryptor";
+        }
+
+        var versionStr = $"{version.Major}.{version.Minor}";
+        if (version.Build > 0)
+        {
+            versionStr += $".{version.Build}";
+        }
+
+        return $"Authy Decryptor (v{versionStr})";
     }
 
     #endregion Private methods

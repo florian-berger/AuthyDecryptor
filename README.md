@@ -9,6 +9,9 @@ As a software developer, I must easily access tokens in my everyday work. Sadly,
 
 Even the export of the encrypted ones requires some complex setup (as described [here by AlexTech01](https://github.com/AlexTech01/Authy-iOS-MiTM/)). If you have access to your encrypted secrets, you can use this project to decrypt them and re-create it with some alternative solutions.
 
+> [!WARNING]  
+> Storing unencrypted secrets on the hard disk can compromise its security. If you save the decrypted file, make sure that your system is protected accordingly and that the file is not transmitted to third parties.
+
 ## Contribution
 To contribute to the development of this project, take a look at the [Contribution guidelines for this project](CONTRIBUTION.md).
 
@@ -17,7 +20,7 @@ To contribute to the development of this project, take a look at the [Contributi
 - [x] GUI with the ability to render secrets as QR codes
 - [x] Load already decrypted files
 - [x] Edit tokens and save them
-- [ ] UI localization
+- [x] UI localization
 
 ## Syncfusion
 This project uses WPF components from Syncfusion. I am not allowed and not able to license the binaries of Syncfusion as part of this project!

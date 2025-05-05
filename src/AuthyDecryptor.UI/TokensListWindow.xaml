@@ -9,8 +9,9 @@
                  xmlns:converters="clr-namespace:AuthyDecryptor.UI.Wpf.Converters"
                  xmlns:barcode="clr-namespace:Syncfusion.UI.Xaml.Controls.Barcode;assembly=Syncfusion.SfBarcode.WPF"
                  xmlns:bindingObjects="clr-namespace:AuthyDecryptor.UI.Wpf.BindingObjects"
+                 xmlns:lang="clr-namespace:AuthyDecryptor.UI.Resources"
                  mc:Ignorable="d" WindowStyle="ToolWindow" ShowHelpButton="False"
-                 Title="Decrypted tokens"
+                 Title="{x:Static lang:AppResource.DecryptedTokens}"
                  sf:SfSkinManager.Theme="{sf:SkinManager ThemeName=Windows11Dark}"
                  Icon="{fa:IconSource Lock, Foreground=White}"
                  MinHeight="500" MinWidth="800" Height="500" Width="800" WindowStartupLocation="CenterOwner"
@@ -29,18 +30,20 @@
                 <sf:BackStageButton Visibility="Collapsed" />
             </sf:Ribbon.BackStageButton>
 
-            <sf:RibbonTab Caption="HOME" IsChecked="True">
-                <sf:RibbonBar Header="Actions" IsLauncherButtonVisible="False">
+            <sf:RibbonTab Caption="{x:Static lang:AppResource.Home}" IsChecked="True">
+                <sf:RibbonBar Header="{x:Static lang:AppResource.Actions}" IsLauncherButtonVisible="False">
                     <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Large"
-                                     Label="Save to file"
+                                     Label="{x:Static lang:AppResource.SaveToFile}"
                                      LargeIcon="{fa:IconSource Save, Foreground=White}"
                                      Command="{Binding Path=SaveToFileCommand, Mode=OneTime}" />
 
-                    <sf:RibbonCheckBox Content="Save with indents" IsChecked="{Binding Path=SaveIndented, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <sf:RibbonCheckBox Content="{x:Static lang:AppResource.SaveIndented}"
+                                       IsChecked="{Binding Path=SaveIndented, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </sf:RibbonBar>
 
-                <sf:RibbonBar Header="Settings" IsLauncherButtonVisible="False">
-                    <sf:RibbonCheckBox Content="Allow edit" IsChecked="{Binding Path=AllowEditing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <sf:RibbonBar Header="{x:Static lang:AppResource.Settings}" IsLauncherButtonVisible="False">
+                    <sf:RibbonCheckBox Content="{x:Static lang:AppResource.AllowEdit}"
+                                       IsChecked="{Binding Path=AllowEditing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </sf:RibbonBar>
             </sf:RibbonTab>
         </sf:Ribbon>
@@ -79,14 +82,14 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Text="No token selected" FontWeight="Bold" FontSize="16" HorizontalAlignment="Center" />
+                                <TextBlock Grid.Row="0" Text="{x:Static lang:AppResource.NoTokenSelectedTitle}" FontWeight="Bold" FontSize="16" HorizontalAlignment="Center" />
 
                                 <Grid Grid.Row="1" Margin="20">
                                     <Ellipse Height="96" Width="96" Fill="#333231" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                     <Image Source="{fa:IconSource Archive, Foreground=White, IconFont=Solid}" Height="48" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Grid>
 
-                                <TextBlock Grid.Row="2" Text="Select a token from the list on the left side to get detailed information about it. There you can also generate a QR code to set up a new authenticator app easily." TextWrapping="Wrap"
+                                <TextBlock Grid.Row="2" Text="{x:Static lang:AppResource.NoTokenSelectedDescription}" TextWrapping="Wrap"
                                            MaxWidth="320" HorizontalAlignment="Center" TextAlignment="Center" />
                             </Grid>
                         </Border>
@@ -107,22 +110,26 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <sf:SfTextInputLayout Grid.Row="0" Grid.Column="0" ContainerType="Outlined" Hint="Name" Focusable="False" HorizontalAlignment="Stretch">
+                        <sf:SfTextInputLayout Grid.Row="0" Grid.Column="0" ContainerType="Outlined" Focusable="False" HorizontalAlignment="Stretch"
+                                              Hint="{x:Static lang:AppResource.TokenName}" >
                             <TextBox Text="{Binding Path=SelectedToken.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                      IsReadOnly="{Binding Path=AllowEditing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </sf:SfTextInputLayout>
 
-                        <sf:SfTextInputLayout Grid.Row="1" Grid.Column="0" ContainerType="Outlined" Hint="Issuer" Focusable="False" HorizontalAlignment="Stretch">
+                        <sf:SfTextInputLayout Grid.Row="1" Grid.Column="0" ContainerType="Outlined" Focusable="False" HorizontalAlignment="Stretch"
+                                              Hint="{x:Static lang:AppResource.TokenIssuer}">
                             <TextBox Text="{Binding Path=SelectedToken.Issuer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      IsReadOnly="{Binding Path=AllowEditing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </sf:SfTextInputLayout>
 
-                        <sf:SfTextInputLayout Grid.Row="2" Grid.Column="0" ContainerType="Outlined" Hint="Number of digits" Focusable="False" HorizontalAlignment="Stretch">
+                        <sf:SfTextInputLayout Grid.Row="2" Grid.Column="0" ContainerType="Outlined" Focusable="False" HorizontalAlignment="Stretch"
+                                              Hint="{x:Static lang:AppResource.TokenDigits}">
                             <TextBox Text="{Binding Path=SelectedToken.Digits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      IsReadOnly="{Binding Path=AllowEditing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </sf:SfTextInputLayout>
 
-                        <sf:SfTextInputLayout Grid.Row="3" Grid.Column="0" ContainerType="Outlined" Hint="Secret" Focusable="False" HorizontalAlignment="Stretch">
+                        <sf:SfTextInputLayout Grid.Row="3" Grid.Column="0" ContainerType="Outlined" Focusable="False" HorizontalAlignment="Stretch"
+                                              Hint="{x:Static lang:AppResource.TokenSecret}">
                             <TextBox Text="{Binding Path=SelectedToken.DecryptedSeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      IsReadOnly="{Binding Path=AllowEditing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </sf:SfTextInputLayout>

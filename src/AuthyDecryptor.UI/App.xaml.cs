@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Windows;
 using AuthyDecryptor.UI.Wpf;
 
 namespace AuthyDecryptor.UI;
@@ -20,7 +21,9 @@ public partial class App
 
     private void OnStartup(object sender, StartupEventArgs e)
     {
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.CurrentUICulture;
+        CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.CurrentUICulture;
+        
         Current.Dispatcher.Invoke(UiThreadHelper.Initialize);
     }
 }
-

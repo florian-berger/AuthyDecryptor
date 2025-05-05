@@ -2,6 +2,7 @@
 using AuthyDecryptor.Model;
 using AuthyDecryptor.UI.Wpf.BindingObjects;
 using System.Text.Json;
+using AuthyDecryptor.UI.Resources;
 using Microsoft.Win32;
 
 namespace AuthyDecryptor.UI.ViewModel;
@@ -16,7 +17,7 @@ internal class TokensListViewModel(DecryptedTokenBinding[] tokens) : BindableBas
     
     #region Properties
 
-    public DecryptedTokenBinding[] Tokens { get; private set; } = tokens;
+    public DecryptedTokenBinding[] Tokens { get; init; } = tokens;
 
     public DecryptedTokenBinding? SelectedToken
     {
@@ -67,8 +68,8 @@ internal class TokensListViewModel(DecryptedTokenBinding[] tokens) : BindableBas
         
         var saveFileDialog = new SaveFileDialog
         {
-            Filter = "JSON files (*.json)|*.json|All Files (*.*)|*.*",
-            Title = "Select output file",
+            Filter = $"{AppResource.JsonFile} (*.json)|*.json|{AppResource.AllFiles} (*.*)|*.*",
+            Title = AppResource.OutputFileTitle,
             OverwritePrompt = true,
             AddExtension = true,
             FileName = defaultFileName,

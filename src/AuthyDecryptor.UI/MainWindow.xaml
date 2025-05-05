@@ -8,9 +8,11 @@
                  xmlns:wpf="clr-namespace:AuthyDecryptor.UI.Wpf"
                  xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
                  xmlns:ui="clr-namespace:AuthyDecryptor.UI"
+                 xmlns:lang="clr-namespace:AuthyDecryptor.UI.Resources"
                  sf:SfSkinManager.Theme="{sf:SkinManager ThemeName=Windows11Dark}"
-                 mc:Ignorable="d" Title="AuthyDecryptor" ShowHelpButton="False"
+                 mc:Ignorable="d" ShowHelpButton="False"
                  Icon="{fa:IconSource LockOpen, Foreground=White}"
+                 Title="{Binding Path=WindowTitle, Mode=OneTime}"
                  Height="560" Width="600" ResizeMode="NoResize">
     <sf:RibbonWindow.DataContext>
         <viewModel:MainViewModel />
@@ -35,31 +37,31 @@
                 <sf:BackStageButton Visibility="Collapsed" />
             </sf:Ribbon.BackStageButton>
 
-            <sf:RibbonTab Caption="HOME" IsChecked="True">
-                <sf:RibbonBar Header="Analyze" IsLauncherButtonVisible="False">
+            <sf:RibbonTab Caption="{x:Static lang:AppResource.Home}" IsChecked="True">
+                <sf:RibbonBar Header="{x:Static lang:AppResource.Analyze}" IsLauncherButtonVisible="False">
                     <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Large"
-                                     Label="Start"
+                                     Label="{x:Static lang:AppResource.Start}"
                                      LargeIcon="{fa:IconSource PlayCircle, Foreground=White, IconFont=Solid}"
                                      Command="{Binding Path=StartDecryptionCommand, Mode=OneTime}" />
 
-                    <sf:RibbonCheckBox Content="Auto. save to file"  Margin="5,1,0,0"
+                    <sf:RibbonCheckBox Content="{x:Static lang:AppResource.AutoSave}"  Margin="5,1,0,0"
                                        IsChecked="{Binding Path=AutoSaveToFile, Mode=TwoWay}" />
 
                     <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Small"
-                                     Label="Load decrypted file"
+                                     Label="{x:Static lang:AppResource.LoadDecrypted}"
                                      SmallIcon="{fa:IconSource FileImport, Foreground=White}"
                                      Command="{Binding Path=LoadDecryptedFileCommand, Mode=OneTime}" />
                 </sf:RibbonBar>
 
                 <sf:RibbonBar Header="Extras" IsLauncherButtonVisible="False">
                     <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Small"
-                                     Label="Open repository"
+                                     Label="{x:Static lang:AppResource.OpenRepository}"
                                      SmallIcon="{fa:IconSource Github, Foreground=White, IconFont=Brands}"
                                      Command="{x:Static wpf:StaticCommands.OpenUriCommand}"
                                      CommandParameter="{x:Static ui:Constants.RepositoryUri}" />
 
                     <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Small"
-                                     Label="Third-Party licenses"
+                                     Label="{x:Static lang:AppResource.ThirdPartyLicenses}"
                                      SmallIcon="{fa:IconSource Stamp, Foreground=White}"
                                      Command="{x:Static wpf:StaticCommands.OpenThirdPartyLicensesCommand}"  />
                 </sf:RibbonBar>
@@ -75,7 +77,7 @@
 
             <GroupBox Grid.Row="0" Header="Settings" HorizontalAlignment="Stretch">
                 <StackPanel HorizontalAlignment="Stretch">
-                    <sf:SfTextInputLayout ContainerType="Filled" Hint="Encrypted file" Focusable="False">
+                    <sf:SfTextInputLayout ContainerType="Filled" Hint="{x:Static lang:AppResource.EncryptedFile}" Focusable="False">
                         <TextBox Style="{StaticResource FileTextBoxStyle}"
                                  Text="{Binding Path=EncryptedFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -87,7 +89,7 @@
                         </sf:SfTextInputLayout.TrailingView>
                     </sf:SfTextInputLayout>
 
-                    <sf:SfTextInputLayout ContainerType="Filled" Hint="Save into file" Focusable="False">
+                    <sf:SfTextInputLayout ContainerType="Filled" Hint="{x:Static lang:AppResource.SaveToFile}" Focusable="False">
                         <TextBox Style="{StaticResource FileTextBoxStyle}"
                                  Text="{Binding Path=DecryptedFileOutput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
@@ -99,7 +101,7 @@
                         </sf:SfTextInputLayout.TrailingView>
                     </sf:SfTextInputLayout>
 
-                    <sf:SfTextInputLayout ContainerType="Filled" Hint="Authy Backup password">
+                    <sf:SfTextInputLayout ContainerType="Filled" Hint="{x:Static lang:AppResource.AuthyPassword}">
                         <PasswordBox wpf:PasswordBoxHelper.Attach="True"
                                      wpf:PasswordBoxHelper.Password="{Binding Path=AuthyBackupPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </sf:SfTextInputLayout>
@@ -112,7 +114,7 @@
                 <sf:SfCircularProgressBar.ProgressContent>
                     <StackPanel>
                         <TextBlock Text="{Binding Path=ProgressPercent, StringFormat={}{0} %}" TextAlignment="Center" />
-                        <TextBlock Text="decrypted" />
+                        <TextBlock Text="{x:Static lang:AppResource.Decrypted}" />
                     </StackPanel>
                 </sf:SfCircularProgressBar.ProgressContent>
             </sf:SfCircularProgressBar>
