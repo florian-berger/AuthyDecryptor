@@ -115,6 +115,15 @@ namespace AuthyDecryptor.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to decrypted.
         /// </summary>
         public static string Decrypted {
@@ -205,6 +214,33 @@ namespace AuthyDecryptor.UI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A new version ({0}) is available. Do you want to download it?.
+        /// </summary>
+        public static string NewVersionAvailable {
+            get {
+                return ResourceManager.GetString("NewVersionAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New version available.
+        /// </summary>
+        public static string NewVersionTitle {
+            get {
+                return ResourceManager.GetString("NewVersionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select a token from the list on the left side to get detailed information about it. There you can also generate a QR code to set up a new authenticator app easily..
         /// </summary>
         public static string NoTokenSelectedDescription {
@@ -219,6 +255,15 @@ namespace AuthyDecryptor.UI.Resources {
         public static string NoTokenSelectedTitle {
             get {
                 return ResourceManager.GetString("NoTokenSelectedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
             }
         }
         
@@ -327,6 +372,15 @@ namespace AuthyDecryptor.UI.Resources {
         public static string TokenSecret {
             get {
                 return ResourceManager.GetString("TokenSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

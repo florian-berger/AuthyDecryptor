@@ -9,16 +9,20 @@
                  xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
                  xmlns:ui="clr-namespace:AuthyDecryptor.UI"
                  xmlns:lang="clr-namespace:AuthyDecryptor.UI.Resources"
+                 xmlns:converters="clr-namespace:AuthyDecryptor.UI.Wpf.Converters"
                  sf:SfSkinManager.Theme="{sf:SkinManager ThemeName=Windows11Dark}"
                  mc:Ignorable="d" ShowHelpButton="False"
                  Icon="{fa:IconSource LockOpen, Foreground=White}"
                  Title="{Binding Path=WindowTitle, Mode=OneTime}"
-                 Height="560" Width="600" ResizeMode="NoResize">
+                 Height="560" Width="600" ResizeMode="NoResize"
+                 ContentRendered="MainWindow_OnContentRendered">
     <sf:RibbonWindow.DataContext>
         <viewModel:MainViewModel />
     </sf:RibbonWindow.DataContext>
 
     <sf:RibbonWindow.Resources>
+        <converters:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter" />
+
         <Style x:Key="FileTextBoxStyle" TargetType="{x:Type TextBox}">
             <Setter Property="IsEnabled" Value="False" />
             <Setter Property="Focusable" Value="False" />
@@ -59,6 +63,13 @@
                                      SmallIcon="{fa:IconSource Github, Foreground=White, IconFont=Brands}"
                                      Command="{x:Static wpf:StaticCommands.OpenUriCommand}"
                                      CommandParameter="{x:Static ui:Constants.RepositoryUri}" />
+
+                    <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Small"
+                                     Visibility="{Binding Path=NewVersionDownloadLink, Mode=OneWay, Converter={StaticResource NotNullToVisibilityConverter}}"
+                                     Label="{x:Static lang:AppResource.NewVersionTitle}"
+                                     SmallIcon="{fa:IconSource Download, Foreground=White}"
+                                     Command="{x:Static wpf:StaticCommands.OpenUriCommand}"
+                                     CommandParameter="{Binding Path=NewVersionDownloadLink, Mode=OneWay}" />
 
                     <sf:RibbonButton HorizontalAlignment="Left" SizeForm="Small"
                                      Label="{x:Static lang:AppResource.ThirdPartyLicenses}"

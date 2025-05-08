@@ -10,6 +10,8 @@ class Program
 {
     static void Main(string[] args)
     {
+        CheckForUpdate().Wait();
+
         Parser.Default.ParseArguments<CmdLineOptions>(args)
             .WithParsed(options =>
             {
@@ -179,5 +181,30 @@ class Program
                     }
                 }
             });
+    }
+
+    static async Task CheckForUpdate()
+    {
+        var currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        if (currentVersion == null)
+        {
+            return;
+        }
+
+        try
+        {
+            var newestVersion = await VersionHelper.CheckForUpdate(currentVersion);
+            if (newestVersion != null)
+            {
+                ConsoleHelper.WriteSuccess($"A new version ({VersionHelper.GetVersionString(newestVersion.Value.Version)}) is available.");
+                ConsoleHelper.WriteSuccess($"Please head to {newestVersion.Value.ReleaseLink} to download it.");
+                Console.WriteLine();
+            }
+        }
+        catch (Exception ex)
+        {
+            // Ignore issues
+            ConsoleHelper.WriteError("Update check failed.", ex);
+        }
     }
 }

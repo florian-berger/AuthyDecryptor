@@ -187,4 +187,22 @@
   <data name="ErrorOpeningLicensesFile" xml:space="preserve">
     <value>Error opening the third-party licenses file.</value>
   </data>
+  <data name="NewVersionAvailable" xml:space="preserve">
+    <value>A new version ({0}) is available. Do you want to download it?</value>
+  </data>
+  <data name="NewVersionTitle" xml:space="preserve">
+    <value>New version available</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
 </root>
