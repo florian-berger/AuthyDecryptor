@@ -1,0 +1,29 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <Package 
+    Id="Florian_Berger.AuthyDecryptor"
+    Name="AuthyDecryptor"
+    Manufacturer="Florian Berger"
+    Version="2025.2.0"
+    UpgradeCode="e5eb11e8-778e-4a11-9df7-417b9f0f5fd0"
+  >
+    <!-- Include CAB file into MSI-->
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Specify message for disallowed downgrades -->
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+
+    <WixVariable
+      Id="WixUILicenseRtf"
+      Value="MIT-License.rtf"
+    />
+
+    <ui:WixUI Id="WixUI_InstallDir"
+              InstallDirectory="INSTALLFOLDER" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+
+    <Feature Id="Main">
+      <ComponentGroupRef Id="AppComponents" />
+    </Feature>
+  </Package>
+</Wix>
