@@ -187,4 +187,22 @@
   <data name="ErrorOpeningLicensesFile" xml:space="preserve">
     <value>Fehler beim Öffnen der Datei mit den Drittanbieterlizenzen.</value>
   </data>
+  <data name="NewVersionAvailable" xml:space="preserve">
+    <value>Eine neue Version ({0}) ist verfügbar. Möchten Sie diese herunterladen?</value>
+  </data>
+  <data name="NewVersionTitle" xml:space="preserve">
+    <value>Neue Version verfügbar</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nein</value>
+  </data>
 </root>
