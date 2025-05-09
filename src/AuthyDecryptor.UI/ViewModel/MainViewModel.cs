@@ -154,7 +154,7 @@ public class MainViewModel : BindableBase
                 });
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Version check failed - do nothing
         }

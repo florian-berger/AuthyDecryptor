@@ -24,10 +24,14 @@
 
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="e428b5be-4ef0-439c-b035-6b489e289a5c">
+        <!--
+          Uses notation [!FILE_REFERENCE] as Target, as the normally 
+          used [#FILE_REFERENCE] leads to an ugly ICE69 warning
+        -->
         <Shortcut
           Id="AuthyDecryptorStartMenuShortcut"
           Name="!(bind.Property.ProductName)"
-          Target="[#file_AuthyDecryptorUiExe]"
+          Target="[!file_AuthyDecryptorUiExe]"
           WorkingDirectory="INSTALLFOLDER" />
 
         <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>

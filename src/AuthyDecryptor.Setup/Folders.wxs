@@ -5,8 +5,8 @@
       <Directory Id="INSTALLFOLDER_DE" Name="!(bind.Property.Manufacturer)\!(bind.Property.ProductName)\de" />
     </StandardDirectory>
 
-    <Directory Id="ProgramMenuFolder">
+    <StandardDirectory Id="ProgramMenuFolder">
       <Directory Id="ApplicationProgramsFolder" Name="!(bind.Property.ProductName)"/>
-    </Directory>
+    </StandardDirectory>
   </Fragment>
 </Wix>
