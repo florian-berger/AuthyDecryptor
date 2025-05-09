@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Windows;
 using AuthyDecryptor.Model;
+using AuthyDecryptor.UI.Enums;
 using AuthyDecryptor.UI.Resources;
 using AuthyDecryptor.UI.Wpf;
 using Microsoft.Win32;
@@ -97,6 +98,12 @@ public class MainViewModel : BindableBase
         set => SetProperty(ref _progressPercent, value);
     } private int _progressPercent;
 
+    public string? NewVersionDownloadLink
+    {
+        get => _newVersionDownloadLink;
+        set => SetProperty(ref _newVersionDownloadLink, value);
+    } private string? _newVersionDownloadLink;
+
     public string WindowTitle { get; init; } = BuildWindowTitle();
 
     #endregion Properties
@@ -115,6 +122,45 @@ public class MainViewModel : BindableBase
     private DelegateCommand? _loadDecryptedFileCommand;
 
     #endregion Commands
+
+    #region Internal methods
+
+    internal async Task CheckForVersionUpdate()
+    {
+        var currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        if (currentVersion == null)
+        {
+            return;
+        }
+
+        try
+        {
+            var newestVersion = await VersionHelper.CheckForUpdate(currentVersion);
+            if (newestVersion != null)
+            {
+                UiThreadHelper.RunOnUiThread(() =>
+                {
+                    NewVersionDownloadLink = newestVersion.Value.ReleaseLink;
+                    var versionString = VersionHelper.GetVersionString(newestVersion.Value.Version);
+
+                    var result = CustomMessageBox.ShowDialog(
+                        string.Format(AppResource.NewVersionAvailable, versionString),
+                        AppResource.NewVersionTitle, CustomMessageBoxButtons.YesNo, CustomMessageBoxImage.Question);
+
+                    if (result == CustomMessageBoxResult.Yes)
+                    {
+                        StaticCommands.OpenUriCommand.Execute(newestVersion.Value.ReleaseLink);
+                    }
+                });
+            }
+        }
+        catch (Exception)
+        {
+            // Version check failed - do nothing
+        }
+    }
+
+    #endregion Internal methods
 
     #region Private methods
 
@@ -333,13 +379,7 @@ public class MainViewModel : BindableBase
             return "Authy Decryptor";
         }
 
-        var versionStr = $"{version.Major}.{version.Minor}";
-        if (version.Build > 0)
-        {
-            versionStr += $".{version.Build}";
-        }
-
-        return $"Authy Decryptor (v{versionStr})";
+        return $"Authy Decryptor (v{VersionHelper.GetVersionString(version)})";
     }
 
     #endregion Private methods

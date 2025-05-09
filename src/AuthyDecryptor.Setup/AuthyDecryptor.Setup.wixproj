@@ -1,0 +1,12 @@
+<Project Sdk="WixToolset.Sdk/6.0.0">
+  <ItemGroup>
+    <None Include="MIT-License.rtf" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AuthyDecryptor.CLI\AuthyDecryptor.CLI.csproj" />
+    <ProjectReference Include="..\AuthyDecryptor.UI\AuthyDecryptor.UI.csproj" />
+  </ItemGroup>
+</Project>

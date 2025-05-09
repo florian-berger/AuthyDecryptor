@@ -1,0 +1,44 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="AppComponents" Directory="INSTALLFOLDER">
+      <Component Guid="501c9c14-0f2d-4429-9698-252a63398b6b">
+        <File Source="AuthyDecryptor.CLI.deps.json" Id="file_AuthyDecryptorCliDepsJson" />
+        <File Source="AuthyDecryptor.CLI.dll" Id="file_AuthyDecryptorCliDll" />
+        <File Source="AuthyDecryptor.CLI.exe" Id="file_AuthyDecryptorCliExe" />
+        <File Source="AuthyDecryptor.CLI.pdb" Id="file_AuthyDecryptorCliPdb" />
+        <File Source="AuthyDecryptor.CLI.runtimeconfig.json" Id="file_AuthyDecryptorCliRuntimeconfigJson" />
+        <File Source="AuthyDecryptor.dll" Id="file_AuthyDecryptorDll" />
+        <File Source="AuthyDecryptor.Model.dll" Id="file_AuthyDecryptorModelDll" />
+        <File Source="AuthyDecryptor.Model.pdb" Id="file_AuthyDecryptorModelPdb" />
+        <File Source="AuthyDecryptor.pdb" Id="file_AuthyDecryptorPdb" />
+        <File Source="CommandLine.dll" Id="file_CommandLineDll" />
+        <File Source="AuthyDecryptor.UI.deps.json" Id="file_AuthyDecryptorUiDepsJson" />
+        <File Source="AuthyDecryptor.UI.dll" Id="file_AuthyDecryptorUiDll" />
+        <File Source="AuthyDecryptor.UI.exe" Id="file_AuthyDecryptorUiExe" />
+        <File Source="AuthyDecryptor.UI.pdb" Id="file_AuthyDecryptorUiPdb" />
+        <File Source="AuthyDecryptor.UI.runtimeconfig.json" Id="file_AuthyDecryptorUiRuntimeconfigJson" />
+        <File Source="FontAwesome.Sharp.dll" Id="file_FontAwesomeSharpDll" />
+        <File Source="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Id="file_MicrosoftExtensionsDependencyInjectionAbstractionsDll" />
+        <File Source="Prism.Container.Abstractions.dll" Id="file_PrismContainerAbstractionsDll" />
+        <File Source="Prism.dll" Id="file_PrismDll" />
+        <File Source="Syncfusion.Licensing.dll" Id="file_SyncfusionLicensing" />
+        <File Source="Syncfusion.SfBarcode.WPF.dll" Id="file_SyncfusionSfBarcodeWpfDll" />
+        <File Source="Syncfusion.SfChromelessWindow.WPF.dll" Id="file_SyncfusionSfChromelessWindowWpfDll" />
+        <File Source="Syncfusion.SfNavigationDrawer.WPF.dll" Id="file_SyncfusionSfNavigationDrawerWpfDll" />
+        <File Source="Syncfusion.SfProgressBar.WPF.dll" Id="file_SyncfusionSfProgressBarWpfDll" />
+        <File Source="Syncfusion.SfSkinManager.WPF.dll" Id="file_SyncfusionSfSkinManagerWpfDll" />
+        <File Source="Syncfusion.SfTextInputLayout.WPF.dll" Id="file_SyncfusionSfTextInputLayoutWpfDll" />
+        <File Source="Syncfusion.Shared.WPF.dll" Id="file_SyncfusionSharedWpfDll" />
+        <File Source="Syncfusion.Themes.Windows11Dark.WPF.dll" Id="file_SyncfusionThemesWindows11DarkWpfDll" />
+        <File Source="Syncfusion.Tools.WPF.dll" Id="file_SyncfusionToolsWpfDll" />
+        <File Source="Third-Party Licenses.html" Id="file_ThirdPartyLicensesHtml" />
+      </Component>
+    </ComponentGroup>
+  
+    <ComponentGroup Id="GermanAppComponents" Directory="INSTALLFOLDER_DE">
+      <Component Guid="cbdd63fc-1d72-4fbe-b488-3a7166c53bea">
+        <File Source="de\AuthyDecryptor.UI.resources.dll" Id="file_deAuthyDecryptorUiResourcesDll" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
