@@ -2,6 +2,11 @@
   <Fragment>
     <StandardDirectory Id="ProgramFiles6432Folder">
       <Directory Id="INSTALLFOLDER" Name="!(bind.Property.Manufacturer)\!(bind.Property.ProductName)" />
+      <Directory Id="INSTALLFOLDER_DE" Name="!(bind.Property.Manufacturer)\!(bind.Property.ProductName)\de" />
     </StandardDirectory>
+
+    <Directory Id="ProgramMenuFolder">
+      <Directory Id="ApplicationProgramsFolder" Name="!(bind.Property.ProductName)"/>
+    </Directory>
   </Fragment>
 </Wix>
