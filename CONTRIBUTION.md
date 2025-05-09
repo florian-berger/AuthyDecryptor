@@ -17,6 +17,6 @@ After obtaining a license, create an environment variable in your user's context
 If you contribute with writing code, please note the following points:
 * Cosmetic changes of the code that don't add anything substantial in case of stability or functionality will not be accepted in general.
 * Also, there are no changes accepted that collects access data, secrets or similar to may lead to a security issue for users!
-* Open a new Pull Request on GitHub with the patch or new functionality. Make sure that changes are headed into the **development** branch, as the **main** branch always contains the currently released version.
+* Open a new Pull Request on GitHub with the patch or new functionality.
 * Make sure that the PR description clearly describes the problem and solution. If there is an issue for this, include it to your description.
 * Ensure that you separate logic from the UI and CLI parts.
