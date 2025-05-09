@@ -1,8 +1,4 @@
 <Project Sdk="WixToolset.Sdk/6.0.0">
-  <PropertyGroup>
-    <SuppressIces>ICE24</SuppressIces>
-    <SuppressSpecificWarnings>1148</SuppressSpecificWarnings>
-  </PropertyGroup>
   <ItemGroup>
     <None Include="MIT-License.rtf" />
   </ItemGroup>
