@@ -1,11 +1,10 @@
-﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
      xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-  <Package 
-    Id="Florian_Berger.AuthyDecryptor"
-    Name="AuthyDecryptor"
-    Manufacturer="Florian Berger"
-    Version="2025.2.0"
-    UpgradeCode="e5eb11e8-778e-4a11-9df7-417b9f0f5fd0"
+  <Package Version="25.2.0"
+           Id="Florian_Berger.AuthyDecryptor"
+           Name="AuthyDecryptor"
+           Manufacturer="Florian Berger"
+           UpgradeCode="e5eb11e8-778e-4a11-9df7-417b9f0f5fd0"
   >
     <!-- Include CAB file into MSI-->
     <MediaTemplate EmbedCab="yes" />
@@ -22,8 +21,33 @@
               InstallDirectory="INSTALLFOLDER" />
     <UIRef Id="WixUI_ErrorProgressText" />
 
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="e428b5be-4ef0-439c-b035-6b489e289a5c">
+        <!--
+          Uses notation [!FILE_REFERENCE] as Target, as the normally 
+          used [#FILE_REFERENCE] leads to an ugly ICE69 warning
+        -->
+        <Shortcut
+          Id="AuthyDecryptorStartMenuShortcut"
+          Name="!(bind.Property.ProductName)"
+          Target="[!file_AuthyDecryptorUiExe]"
+          WorkingDirectory="INSTALLFOLDER" />
+
+        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU"
+                       Key="Software\!(bind.Property.Manufacturer)\!(bind.Property.ProductName)"
+                       Name="installed"
+                       Type="integer"
+                       Value="1"
+                       KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
     <Feature Id="Main">
       <ComponentGroupRef Id="AppComponents" />
+      <ComponentGroupRef Id="GermanAppComponents" />
+
+      <ComponentRef Id="ApplicationShortcut" />
     </Feature>
   </Package>
 </Wix>
