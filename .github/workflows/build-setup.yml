@@ -1,0 +1,117 @@
+name: Build setup on tag push
+
+# Trigger the action when:
+on:
+  push:
+    tags:
+      # A tag in the format "vX.Y" or "vX.Y.Z" was pushed
+      - 'v*.*'
+      - 'v*.*.*'
+
+jobs:
+  build-setup:
+    # Windows runner needs to be used for WiX builds
+    runs-on: windows-latest
+
+    steps:
+    - name: 'Checkout repository'
+      uses: actions/checkout@v4
+
+    - name: 'Setup .NET8 SDK'
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0'
+
+    - name: 'Add Syncfusion license to repo'
+      run: |
+        $filePath = "src/AuthyDecryptor.UI/App.xaml.cs"
+        $content = Get-Content $filePath
+        $newContent = $content.Replace("%LICENSE_KEY%", "${{ secrets.SF_LICENSE_KEY }}")
+        Set-Content $filePath $newContent
+      shell: powershell
+
+    - name: 'Build projects'
+      run: |
+        dotnet build src/AuthyDecryptor.Setup/AuthyDecryptor.Setup.wixproj -c Release
+      shell: powershell
+
+    - name: 'Rename setups'
+      id: rename_setups
+      run: |
+        # Remove the leading 'v' from the tag name to get the version
+        $version = "${{ github.ref_name }}".Substring(1)
+
+        $basePath = "src/AuthyDecryptor.Setup/bin/x64/Release/"
+        # Define an array to store the renamed file paths
+        $renamedFiles = @()
+
+        # Rename the German setup
+        $deFile = Get-ChildItem -Path "$basePath/de-DE/" -Filter "*.msi" | Select-Object -First 1
+        if ($deFile) {
+            $newName = "AuthyDecryptor-$version-de.msi"
+            $newPath = Join-Path $deFile.DirectoryName $newName
+            Write-Host "Renaming $($deFile.Name) to $newName"
+            Rename-Item -Path $deFile.FullName -NewName $newName
+            $renamedFiles += $newPath # Adds the new German path to the array
+        }
+
+        # Rename the English setup
+        $enFile = Get-ChildItem -Path "$basePath/en-US/" -Filter "*.msi" | Select-Object -First 1
+        if ($enFile) {
+            $newName = "AuthyDecryptor-$version-en.msi"
+            $newPath = Join-Path $enFile.DirectoryName $newName
+            Write-Host "Renaming $($enFile.Name) to $newName"
+            Rename-Item -Path $enFile.FullName -NewName $newName
+            $renamedFiles += $newPath # Adds the new English path to the array
+        }
+
+        # Write the paths of the renamed files as output variable for the step
+        Write-Host "::set-output name=renamed_files:: $($renamedFiles -join ',')"
+      shell: powershell
+
+    - name: 'Calculate checksums'
+      id: calculate_checksums
+      run: |
+        $renamedFiles = "${{ steps.rename_setups.outputs.renamed_files }}".Split(',')
+        $checksumsOutput = "## Checksums:`n`n"
+        foreach ($file in $renamedFiles) {
+            if ($file) { # Just to be sure that the variable is filled with something
+                Write-Host "Calculating checksums for $file"
+                $md5 = Get-FileHash -Path $file -Algorithm MD5 | Select-Object -ExpandProperty Hash
+                $sha1 = Get-FileHash -Path $file -Algorithm SHA1 | Select-Object -ExpandProperty Hash
+                $sha256 = Get-FileHash -Path $file -Algorithm SHA256 | Select-Object -ExpandProperty Hash
+
+                $fileName = Split-Path -Leaf $file # Holt nur den Dateinamen
+                $checksumsOutput += "### $($fileName)`n"
+                $checksumsOutput += "| Algorithm | Checksum |`n"
+                $checksumsOutput += "| - | - |`n"
+                $checksumsOutput += "| MD5 | `$($md5) |`n"
+                $checksumsOutput += "| SHA1 | `$($sha1) |`n"
+                $checksumsOutput += "| SHA256 | `$($sha256) |`n`n"
+            }
+        }
+
+        # Set the formatted checksum as output variable
+        $checksumsOutput = $checksumsOutput -replace "`n", "%0A" # Replaces newlines for passing as output
+        $checksumsOutput = $checksumsOutput -replace "`r", "" # Removes Carriage Returns
+        Write-Host "::set-output name=checksums:: $checksumsOutput"
+
+    - name: 'Create GitHub release as draft'
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: Version ${{ github.ref_name }}
+        files: |
+          src/AuthyDecryptor.Setup/bin/x64/Release/de-DE/*
+          src/AuthyDecryptor.Setup/bin/x64/Release/en-US/*
+        draft: true
+        body: |
+          ## What's changed
+          - Fill the content here
+
+          **Full Changelog**: Insert link here
+
+          ## Checksums
+          ${{ steps.calculate_checksums.outputs.checksums }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
