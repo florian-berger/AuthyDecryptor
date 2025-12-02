@@ -13,7 +13,7 @@ Even the export of the encrypted ones requires some complex setup (as described 
 > Storing unencrypted secrets on the hard disk can compromise its security. If you save the decrypted file, make sure that your system is protected accordingly and that the file is not transmitted to third parties.
 
 ## Contribution
-To contribute to the development of this project, take a look at the [Contribution guidelines for this project](CONTRIBUTION.md).
+To contribute to the development of this project, take a look at the [Contribution guidelines for this project](CONTRIBUTING.md).
 
 ## TODO
 - [x] CLI tool
